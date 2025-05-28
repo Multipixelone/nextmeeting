@@ -218,13 +218,13 @@ def ret_events(
             if timetofinish.hours == 0:
                 s = f"{timetofinish.minutes} minutes"
             else:
-                s = f"{timetofinish.hours}H{timetofinish.minutes}"
+                s = f"{timetofinish.hours}:{timetofinish.minutes}"
             thetime = f"{s} to go"
             if hyperlink:
                 thetime = f"{thetime: <17}"
             if hyperlink:
                 thetime = make_hyperlink(match.group("calendar_url"), thetime)
-            ret.append(f"{thetime} - {title}")
+            ret.append(f"{title} - {thetime}")
         else:
             timeuntilstarting = dtrel.relativedelta(
                 startdate + datetime.timedelta(minutes=1), datetime.datetime.now()
@@ -248,7 +248,7 @@ def ret_events(
                     replace_domain_url(args.google_domain, match.group("calendar_url")),
                     thetime,
                 )
-            ret.append(f"{thetime} - {title}")
+            ret.append(f"{title} - {thetime}")
     return ret, cssclass
 
 
@@ -417,7 +417,7 @@ def get_next_non_all_day_meeting(
 def open_meet_url(rets, matches: list[re.Match], args: argparse.Namespace):
     url = ""
     if not rets:
-        print("No meeting 🏖️")
+        print("")
         return
     for match in matches:
         startdate = dtparse.parse(
@@ -458,7 +458,7 @@ def main():
         return
     elif args.waybar:
         if not rets:
-            ret = {"text": "No meeting 🏖️"}
+            ret = {"text": ""}
         else:
             if args.waybar_show_all_day_meeting:
                 coming_up_next = rets[0]
